@@ -26,6 +26,7 @@ if "%REG_KEY%"=="" (
 if "%RETURN_NAME%"=="" (
 	set RETURN_NAME=REG_VALUE
 )
+set %RETURN_NAME%=
 if "%REG_PATH%"=="" (
 	goto err
 )
