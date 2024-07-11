@@ -65,7 +65,8 @@ goto done
 :paramErr
 echo 参数错误
 echo Usage: GenerateBase64Extracter.bat InputFile [ExtractFileName ExtracterBat]
-echo 如果不填ExtractFileName，则ExtractFileName=InputFile；如果ExtracterBat不填，则ExtracterBat=ExtractFileName.bat
+echo 说明：如果不填ExtractFileName，则ExtractFileName=InputFile；如果ExtracterBat不填，则ExtracterBat=ExtractFileName.bat
+echo 举例：GenerateBase64Extracter.bat D:\1.jpg data\1.jpg D:\1.jpg.bat - 把D:\1.jpg打包成D:\1.jpg.bat，当D:\1.jpg.bat执行时会生成data\1.jpg
 
 goto done
 :encodeErr
