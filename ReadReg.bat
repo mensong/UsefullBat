@@ -40,17 +40,26 @@ set %RETURN_NAME%=%READ_VALUE%
 
 goto done
 :err
+echo 1.
 echo set REG_PATH=HKEY_LOCAL_MACHINE\SOFTWARE\DefaultUserEnvironment
 echo set REG_KEY=Path
 echo call ReadReg.bat
 echo echo %%REG_VALUE%%
-echo 或
+echo.
+echo 2.
 echo set REG_PATH=HKEY_LOCAL_MACHINE\SOFTWARE\DefaultUserEnvironment
 echo set REG_KEY=Path
 echo call ReadReg.bat return_Val
 echo echo %%return_Val%%
-echo 或
+echo.
+echo 3.
 echo call ReadReg.bat RETURN_VALUE HKEY_LOCAL_MACHINE\SOFTWARE\DefaultUserEnvironment Path
 echo echo %%RETURN_VALUE%%
+echo.
+echo 如果路径有空格，则需要使用1或2
 
 :done
+set REG_PATH=
+set REG_KEY=
+set RETURN_NAME=
+set REG_VALUE=
