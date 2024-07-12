@@ -7,29 +7,22 @@ set ExtracterBat=%3
 
 
 
-::规范路径分隔符 及 处理默认参数
+::规范路径分隔符
 if "%InputFile%"=="" goto paramErr
 set InputFile=%InputFile:/=\%
 
-if "%ExtractFileName%"=="" (
-	::获得路径中的文件名
-	for %%I in ("%InputFile%") do set "filename=%%~nxI"
-	set ExtractFileName=%filename%
-)
+if "%ExtractFileName%"=="" goto paramErr
 set ExtractFileName=%ExtractFileName:/=\%
 
-if "%ExtracterBat%"=="" (
-	::获得路径中的文件名
-	for %%I in ("%ExtractFileName%") do set "filename=%%~nxI"
-	set ExtracterBat=Generated\%filename%.bat
-	mkdir Generated >nul 2>nul
-)
+if "%ExtracterBat%"=="" goto paramErr
 set ExtracterBat=%ExtracterBat:/=\%
 
 echo.
 echo InputFile=%InputFile%
 echo ExtractFileName=%ExtractFileName%
 echo ExtracterBat=%ExtracterBat%
+mkdir %ExtracterBat%
+rd %ExtracterBat%
 echo.
 
 
@@ -52,8 +45,8 @@ for /f "tokens=*" %%a in (%tmpFile%) do (
 )
 
 ::确保ExtractFileName的父目录存在
-echo mkdir %ExtractFileName:/=\% >>%ExtracterBat%
-echo rd %ExtractFileName:/=\% >>%ExtracterBat%
+echo mkdir %ExtractFileName% >>%ExtracterBat%
+echo rd %ExtractFileName% >>%ExtracterBat%
 
 ::写base64解码的echo
 echo certutil -decode -f src.base64 %ExtractFileName% >>%ExtracterBat%
@@ -63,16 +56,17 @@ echo del src.base64 >>%ExtracterBat%
 
 goto done
 :paramErr
-echo 参数错误
-echo Usage: GenerateBase64Extracter.bat InputFile [ExtractFileName ExtracterBat]
-echo 说明：如果不填ExtractFileName，则ExtractFileName=InputFile；如果ExtracterBat不填，则ExtracterBat=ExtractFileName.bat
-echo 举例：GenerateBase64Extracter.bat D:\1.jpg data\1.jpg D:\1.jpg.bat - 把D:\1.jpg打包成D:\1.jpg.bat，当D:\1.jpg.bat执行时会生成data\1.jpg
+echo 参数错误：
+echo 用法: GenerateBase64Extracter.bat InputFile ExtractFileName ExtracterBat
+echo 举例：GenerateBase64Extracter.bat D:\1.jpg data\1.jpg D:\1.jpg.bat 
+echo       把D:\1.jpg打包成D:\1.jpg.bat，当D:\1.jpg.bat执行时会生成data\1.jpg
+pause
 
 goto done
 :encodeErr
 echo.
 echo 编码错误：certutil -encode -f %InputFile% "%tmpFile%"
 echo.
+pause
 
 :done
-pause
