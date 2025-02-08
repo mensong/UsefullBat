@@ -21,8 +21,8 @@ echo.
 echo InputFile=%InputFile%
 echo ExtractFileName=%ExtractFileName%
 echo ExtracterBat=%ExtracterBat%
-mkdir %ExtracterBat%
-rd %ExtracterBat%
+mkdir %ExtracterBat% >nul 2>nul
+rd %ExtracterBat% >nul 2>nul
 echo.
 
 
@@ -45,8 +45,8 @@ for /f "tokens=*" %%a in (%tmpFile%) do (
 )
 
 ::确保ExtractFileName的父目录存在
-echo mkdir %ExtractFileName% >>%ExtracterBat%
-echo rd %ExtractFileName% >>%ExtracterBat%
+echo mkdir %ExtractFileName% ^>nul 2^>nul >>%ExtracterBat%
+echo rd %ExtractFileName% ^>nul 2^>nul >>%ExtracterBat%
 
 ::写base64解码的echo
 echo certutil -decode -f src.base64 %ExtractFileName% >>%ExtracterBat%
